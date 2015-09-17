@@ -7,9 +7,8 @@ import com.simple.contact.exception.ServiceException;
 
 public interface IContactService {
 
-	Long saveOrUpdate(Contact contact) throws ServiceException;
+	void saveOrUpdate(List<Contact> contacts) throws ServiceException;
 
 	List<Contact> loadAll() throws ServiceException;
 
-	Long getCount() throws ServiceException;
 }

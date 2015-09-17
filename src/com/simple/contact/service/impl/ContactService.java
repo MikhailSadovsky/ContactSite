@@ -14,34 +14,25 @@ public class ContactService implements IContactService {
 	private IContactDao contactDao = new ContactDao();
 
 	@Override
-	public Long saveOrUpdate(Contact contact) throws ServiceException {
-		Long id = 0L;
-		try {
-			if (null == contact.getId()) {
-				id = contactDao.save(contact);
-			} else {
-				contactDao.update(contact);
-				id = contact.getId();
+	public void saveOrUpdate(List<Contact> contacts) throws ServiceException {
+		for (Contact contact : contacts) {
+			try {
+				if (null == contact.getId()) {
+					Long contactId = contactDao.save(contact);
+					contact.setId(contactId);
+				} else {
+					contactDao.update(contact);
+				}
+			} catch (DaoException e) {
+				throw new ServiceException(e.getMessage(), e);
 			}
-		} catch (DaoException e) {
-			throw new ServiceException(e.getMessage(), e);
 		}
-		return id;
 	}
 
 	@Override
 	public List<Contact> loadAll() throws ServiceException {
 		try {
 			return contactDao.loadAll();
-		} catch (DaoException e) {
-			throw new ServiceException(e.getMessage(), e);
-		}
-	}
-
-	@Override
-	public Long getCount() throws ServiceException {
-		try {
-			return contactDao.getCount();
 		} catch (DaoException e) {
 			throw new ServiceException(e.getMessage(), e);
 		}

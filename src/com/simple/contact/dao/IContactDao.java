@@ -13,5 +13,4 @@ public interface IContactDao {
 
 	List<Contact> loadAll() throws DaoException;
 
-	Long getCount() throws DaoException;
 }
