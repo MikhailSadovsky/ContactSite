@@ -45,13 +45,14 @@ public class ImportController extends HttpServlet {
 			List<Contact> contacts = CsvImporter.importCsv(filePath);
 			contactServise.saveOrUpdate(contacts);
 			req.setAttribute("uploadMessage", UPLOAD_SUCCESS_MESSAGE);
+			req.getRequestDispatcher(IMPORT_PAGE_PATH).forward(req, resp);
 		} catch (UtilException e) {
 			req.setAttribute("uploadMessage", UPLOAD_FAILURE_MESSAGE);
+			req.getRequestDispatcher(IMPORT_PAGE_PATH).forward(req, resp);
 		} catch (ServiceException e) {
 			req.setAttribute("errorMessage", e.getMessage());
 			req.getRequestDispatcher(ERROR_PAGE_PATH).forward(req, resp);
 		}
-		req.getRequestDispatcher(IMPORT_PAGE_PATH).forward(req, resp);
 	}
 
 }
