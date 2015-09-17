@@ -7,23 +7,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.simple.contact.entity.Contact;
+import com.simple.contact.exception.UtilException;
 
 public final class CsvImporter {
 
 	public static final String DELIMETER = ",";
 
-	public static List<Contact> importCsv(String fileName) {
+	private CsvImporter() {
+
+	}
+
+	public static List<Contact> importCsv(String filePath) throws UtilException {
 		List<Contact> contacts = new ArrayList<Contact>();
 		String line = "";
 		BufferedReader fileReader = null;
 		try {
-			fileReader = new BufferedReader(new FileReader(fileName));
+			fileReader = new BufferedReader(new FileReader(filePath));
 			while ((line = fileReader.readLine()) != null) {
 				String[] fieldValues = line.split(DELIMETER);
 				contacts.add(createContact(fieldValues));
 			}
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
+		} catch (Exception e) {
+			throw new UtilException(e.getMessage(), e);
 		} finally {
 			try {
 				fileReader.close();
